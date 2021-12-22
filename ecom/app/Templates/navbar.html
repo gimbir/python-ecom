@@ -1,0 +1,162 @@
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="border-bottom: 2px solid rgb(50, 50, 50);background-color: rgba(19, 19, 19, 0.6);box-shadow: 0px 5px 5px rgba(50, 50, 50, 0.308);">
+
+            <a class="navbar-brand font-weight-bold" style="font-size: 24px;color:white;" href="/">Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto topnav" style="font-size: 24px;">
+                    <li class="nav-item px-5">
+                        <a class="nav-link font-weight-bold  {% if title == 'Home' %} active {% else %}{% endif %}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item px-5">
+                        <a class="nav-link  font-weight-bold  {% if title == 'Products' %} active {% else %}{% endif %}" href="/products">Products</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-0 topnav">
+
+                    {% if not request.user.is_authenticated %}
+                    <li class="nav-item pl-2">
+                        <a class="nav-link btn btn-primary text-white" type="button" href="#" data-toggle="modal" data-target="#signModal">Sign In</a>
+                    </li>
+                    <li class="nav-item pl-2">
+                        <a class="nav-link btn btn-danger text-white" type="button" href="#" data-toggle="modal" data-target="#registerModal">Register</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- COMMENT: -->
+            <!-- Sign in Modal -->
+            <div class="modal w3-animate-top" id="signModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:black;">User Sign In</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <label class="sr-only" for="usrname">Username</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                 class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+
+                                <label class="sr-only" for="Password">Password</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon2"><i
+                                                 class="fa fa-key"></i></span>
+                                    </div>
+                                    <input id="Password" name="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" id="btn-save" name="submit" value="login">Sign
+                                         In</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMMENT: -->
+            <!-- Sign Up Modal -->
+            <div class="modal w3-animate-top" tabindex="-1" role="dialog" id="registerModal" style="color: black">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">User Register</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                             </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-1">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    {{form.username}}
+                                </div>
+                                <p class="helptext">
+                                    <small>
+                                         {{form.username.help_text}}
+                                     </small>
+                                </p>
+                                <div class="input-group mb-1 mt-4">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                    </div>
+                                    {{form.email}}
+                                </div>
+                                <p class="helptext">
+                                    <small>
+                                         {{form.email.help_text}}
+                                     </small>
+                                </p>
+                                <div class="input-group mb-1 mt-4">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    {{form.password1}}
+                                </div>
+
+                                <small class="helptext">
+                                     {{form.password1.help_text}}
+                                 </small>
+
+                                <div class="input-group mb-1 mt-4">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    {{form.password2}}
+                                </div>
+                                <p class="helptext">
+                                    <small>
+                                         {{form.password2.help_text}}
+                                     </small>
+                                </p>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary" name="submit" value="register">Register
+                                         Account</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% elif user.is_authenticated %}
+            <li class="nav-item pl-2">
+                <a class="nav-link btn btn-primary text-white" type="button" href="#">{{user.username}}</a>
+            </li>
+            <li class="nav-item pl-2">
+                <a class="nav-link btn btn-danger text-white" type="button" name="submit" value="logout" href="/logout?next={{ request.get_full_path }}">Logout</a>
+            </li>
+            </ul>
+    </div>
+
+    {% endif %}
+    </nav>
+{% endblock navbar %}
